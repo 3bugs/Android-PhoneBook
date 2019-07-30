@@ -1,4 +1,4 @@
-package com.promlert.phonebook.db;
+package com.promlert.phonebook.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

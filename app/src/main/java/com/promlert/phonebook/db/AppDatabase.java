@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.promlert.phonebook.R;
+import com.promlert.phonebook.db.entity.PhoneItem;
+import com.promlert.phonebook.db.entity.Province;
 
 import java.util.ArrayList;
 import java.util.List;
