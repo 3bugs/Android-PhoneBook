@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Phone Book</string>
+
+    <string-array name="province_data">
+        <item>ชื่อจังหวัด 1 @ 1</item>
+        <item>ชื่อจังหวัด 2 @ 1</item>
+        <item>ชื่อจังหวัด 3 @ 2</item>
+        <item>ชื่อจังหวัด 4 @ 2</item>
+        <item>ชื่อจังหวัด 5 @ 3</item>
+        <item>ชื่อจังหวัด 6 @ 3</item>
+        <item>ชื่อจังหวัด 7 @ 4</item>
+        <item>ชื่อจังหวัด 8 @ 4</item>
+        <item>ชื่อจังหวัด 9 @ 5</item>
+        <item>ชื่อจังหวัด 10 @ 5</item>
+    </string-array>
+
+    <string-array name="phone_data">
+        <item>ชื่อสถานที่ 1 @ 1111111111 @ 1</item>
+        <item>ชื่อสถานที่ 2 @ 2222222222 @ 1</item>
+        <item>ชื่อสถานที่ 3 @ 3333333333 @ 1</item>
+        <item>ชื่อสถานที่ 4 @ 4444444444 @ 2</item>
+        <item>ชื่อสถานที่ 5 @ 5555555555 @ 2</item>
+        <item>ชื่อสถานที่ 6 @ 6666666666 @ 3</item>
+        <item>ชื่อสถานที่ 7 @ 7777777777 @ 3</item>
+    </string-array>
+</resources>
