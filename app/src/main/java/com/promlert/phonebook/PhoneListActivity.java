@@ -93,7 +93,7 @@ public class PhoneListActivity extends AppCompatActivity {
                                     "หมายเลข " + phoneItem.number,
                                     Snackbar.LENGTH_INDEFINITE
                             )
-                                    .setAction("โทรออก", new View.OnClickListener() {
+                                    .setAction("ยืนยันโทรออก", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             mClickedPhoneItem = phoneItem;

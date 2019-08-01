@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private ViewPager mViewPager;
     private SimpleSearchView mSearchView;
+    private ProgressBar mProgressBar;
 
     private List<ProvinceWithPhoneList> mProvinceWithPhoneList;
 
@@ -112,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setupViews() {
+        mProgressBar = findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
@@ -163,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void doSearch(String query) {
+        mProgressBar.setVisibility(View.VISIBLE);
+
         PhoneRepository phoneRepository = new PhoneRepository(MainActivity.this);
         phoneRepository.search(query, new PhoneRepository.Callback() {
             @Override
@@ -172,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements
                         phoneItemList
                 );
                 showPhoneList(provinceWithPhoneList);
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }

@@ -17,7 +17,7 @@ public interface PhoneDao {
     @Query("SELECT * FROM phone WHERE province_id = :provinceId")
     List<PhoneItem> getByProvince(int provinceId);
 
-    @Query("SELECT * FROM phone WHERE title LIKE :query")
+    @Query("SELECT * FROM phone WHERE title LIKE '%' || :query || '%'")
     List<PhoneItem> search(String query);
 
     @Insert

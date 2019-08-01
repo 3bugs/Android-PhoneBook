@@ -38,13 +38,13 @@ public class PhoneRepository {
     }
 
     public void search(String query, Callback callback) {
-        String q = "%" + query.trim() + "%";
+        //String q = "%" + query.trim() + "%";
 
         new AsyncTask<Void, Void, List<PhoneItem>>() {
             @Override
             protected List<PhoneItem> doInBackground(Void... voids) {
                 AppDatabase db = AppDatabase.getInstance(mContext);
-                return db.phoneDao().search(q);
+                return db.phoneDao().search(query.trim());
             }
 
             @Override
