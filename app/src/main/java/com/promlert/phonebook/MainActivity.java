@@ -1,15 +1,19 @@
 package com.promlert.phonebook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ferfalk.simplesearchview.SimpleSearchView;
+import com.google.gson.Gson;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.promlert.phonebook.adapter.MyPagerAdapter;
 import com.promlert.phonebook.db.PhoneRepository;
@@ -17,6 +21,7 @@ import com.promlert.phonebook.db.ProvinceRepository;
 import com.promlert.phonebook.db.entity.PhoneItem;
 import com.promlert.phonebook.db.entity.Province;
 import com.promlert.phonebook.db.entity.ProvinceWithPhoneList;
+import com.promlert.phonebook.etc.Utils;
 import com.promlert.phonebook.fragment.ProvinceListFragment;
 
 import java.util.List;
@@ -26,8 +31,10 @@ public class MainActivity extends AppCompatActivity implements
         ProvinceListFragment.ProvinceListFragmentListener {
 
     private static final String TAG = MainActivity.class.getName();
+    public static final String KEY_PROVINCE = "province";
 
     private ViewPager mViewPager;
+    private SimpleSearchView mSearchView;
 
     private List<ProvinceWithPhoneList> mProvinceWithPhoneList;
 
@@ -109,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setupViewPagerAndTabs();
+
+        mSearchView = findViewById(R.id.search_view);
     }
 
     private void setupViewPagerAndTabs() {
@@ -126,23 +135,75 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView.setMenuItem(item);
+        mSearchView.enableVoiceSearch(true);
+        mSearchView.setHint("ค้นหา");
+        mSearchView.setOnQueryTextListener(new SimpleSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                doSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextCleared() {
+                return false;
+            }
+        });
+        //mSearchView.setTabLayout(findViewById(R.id.tab_layout));
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_search) {
-            //todo:
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void doSearch(String query) {
+        PhoneRepository phoneRepository = new PhoneRepository(MainActivity.this);
+        phoneRepository.search(query, new PhoneRepository.Callback() {
+            @Override
+            public void onGetPhone(List<PhoneItem> phoneItemList) {
+                ProvinceWithPhoneList provinceWithPhoneList = new ProvinceWithPhoneList(
+                        new Province(0, "ผลการค้นหา '" + query.trim() + "'", 0),
+                        phoneItemList
+                );
+                showPhoneList(provinceWithPhoneList);
+            }
+        });
     }
 
     @Override
-    public void onItemClick(ProvinceWithPhoneList provinceWithPhoneList) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (mSearchView.onActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
 
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSearchView.onBackPressed()) {
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onItemClick(ProvinceWithPhoneList provinceWithPhone) {
+        showPhoneList(provinceWithPhone);
+    }
+
+    private void showPhoneList(ProvinceWithPhoneList provinceWithPhone) {
+        Utils.hideKeyboard(MainActivity.this);
+
+        Intent intent = new Intent(MainActivity.this, PhoneListActivity.class);
+        intent.putExtra(KEY_PROVINCE, new Gson().toJson(provinceWithPhone));
+        startActivity(intent);
     }
 }

@@ -24,8 +24,8 @@ public class ProvinceRecyclerViewAdapter extends RecyclerView.Adapter<ProvinceRe
         mListener = listener;
     }
 
-    @Override
     @NonNull
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_province, parent, false);
@@ -35,17 +35,8 @@ public class ProvinceRecyclerViewAdapter extends RecyclerView.Adapter<ProvinceRe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         ProvinceWithPhoneList item = mDataList.get(position);
-        holder.mItem = item;
+        holder.mProvince = item;
         holder.mProvinceNameTextView.setText(item.province.name);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onItemClick(item);
-                }
-            }
-        });
     }
 
     @Override
@@ -55,14 +46,21 @@ public class ProvinceRecyclerViewAdapter extends RecyclerView.Adapter<ProvinceRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        final View mView;
+        final View mRootView;
         final TextView mProvinceNameTextView;
-        ProvinceWithPhoneList mItem;
+
+        ProvinceWithPhoneList mProvince;
 
         ViewHolder(View view) {
             super(view);
-            mView = view;
+            mRootView = view;
             mProvinceNameTextView = view.findViewById(R.id.province_name_text_view);
+            mRootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onItemClick(mProvince);
+                }
+            });
         }
 
         @Override

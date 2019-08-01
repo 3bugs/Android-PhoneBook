@@ -37,6 +37,26 @@ public class PhoneRepository {
         }.execute();
     }
 
+    public void search(String query, Callback callback) {
+        String q = "%" + query.trim() + "%";
+
+        new AsyncTask<Void, Void, List<PhoneItem>>() {
+            @Override
+            protected List<PhoneItem> doInBackground(Void... voids) {
+                AppDatabase db = AppDatabase.getInstance(mContext);
+                return db.phoneDao().search(q);
+            }
+
+            @Override
+            protected void onPostExecute(List<PhoneItem> phoneItemList) {
+                super.onPostExecute(phoneItemList);
+                if (callback != null) {
+                    callback.onGetPhone(phoneItemList);
+                }
+            }
+        }.execute();
+    }
+
     public interface Callback {
         void onGetPhone(List<PhoneItem> phoneItemList);
     }
