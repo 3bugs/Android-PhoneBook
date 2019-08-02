@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Phone Book</string>
 
+    <string-array name="tab_data">
+        <item>ชื่อแท็บ 1</item>
+        <item>ชื่อแท็บ 2</item>
+        <item>ชื่อแท็บ 3</item>
+        <item>ชื่อแท็บ 4</item>
+        <item>ชื่อแท็บ 5</item>
+    </string-array>
+
     <string-array name="province_data">
         <item>ชื่อจังหวัด 1 @ 1</item>
         <item>ชื่อจังหวัด 2 @ 1</item>

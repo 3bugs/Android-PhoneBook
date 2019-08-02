@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG = MainActivity.class.getName();
     public static final String KEY_PROVINCE = "province";
 
-    private ViewPager mViewPager;
     private SimpleSearchView mSearchView;
     private ProgressBar mProgressBar;
 
@@ -127,14 +126,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setupViewPagerAndTabs() {
+        String[] tabTitles = getResources().getStringArray(R.array.tab_data);
+
         MyPagerAdapter adapter = new MyPagerAdapter(
-                getSupportFragmentManager(), mProvinceWithPhoneList
+                getSupportFragmentManager(), mProvinceWithPhoneList, tabTitles
         );
-        mViewPager = findViewById(R.id.view_pager);
-        mViewPager.setAdapter(adapter);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(adapter);
 
         SmartTabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.setViewPager(mViewPager);
+        tabLayout.setViewPager(viewPager);
     }
 
     @Override
